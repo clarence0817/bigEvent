@@ -210,7 +210,16 @@
     });
 
     $(".btn-primary").click(function() {
-      window.location.href = "./login.html";
+      $.ajax({
+        url: "https://autumnfish.cn/big/admin/logout",
+        type: "post",
+        success: function(backData) {
+          console.log(backData);
+          if(backData.code==200){
+            window.location.href="./login.html"
+          }
+        }
+      });
     });
   });
 </script>
