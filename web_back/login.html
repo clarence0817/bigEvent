@@ -1,36 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>大事件-后台登录页</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/iconfont.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css" />
+  </head>
 
-<body>
+  <body>
+    <!-- bs按键弹窗 -->
+    <div class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">提示!</h4>
+          </div>
+          <div class="modal-body">
+            <p>你账号密码输错了( •̀ ω •́ )y</p>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
     <div class="main_wrap">
-        <div class="header">
-            <a href="#" class="logo"><img src="images/logo.png" alt=""></a>
-            <div class="copyright">CopyRight © 2019 深圳百秀信息技术股份有限公司<br>All Rights Reserved</div>
+      <div class="header">
+        <a href="#" class="logo"><img src="images/logo.png" alt=""/></a>
+        <div class="copyright">
+          CopyRight © 2019 深圳百秀信息技术股份有限公司<br />All Rights Reserved
         </div>
+      </div>
 
-        <div class="login_form_con">
-            <div class="login_title"></div>
-            <form class="login_form">
-                <i class="iconfont icon-user"></i>
-                <i class="iconfont icon-key"></i>
-                <input type="text" class="input_txt" placeholder="邮箱/手机号">
-                <input type="password" class="input_pass" placeholder="密码">
-                <input type="submit" class="input_sub" value="登 录">
-            </form>
-        </div>
+      <div class="login_form_con">
+        <div class="login_title"></div>
+        <form class="login_form">
+          <i class="iconfont icon-user"></i>
+          <i class="iconfont icon-key"></i>
+          <input type="text" class="input_txt" placeholder="邮箱/手机号" />
+          <input type="password" class="input_pass" placeholder="密码" />
+          <input type="submit" class="input_sub" value="登 录" />
+        </form>
+      </div>
+    </div>
+  </body>
+  <script src="./js/jquery-1.12.4.min.js"></script>
+  <script src="./js/bootstrap/js/bootstrap.min.js"></script>
 
-    </div> 
+  <script>
+    // 1,添加登陆点击事件
+    // 2,获取文本框账号密码
+    // 3,判断文本框是否为空再执行代码
+    // 4,调用ajax获取数据
+    // 5,密码正确就转条跳页面,错误弹出提示框
+    $(function() {
+      $(".input_sub").click(function() {
+        var txt = $(".input_txt").val();
 
-</body>
+        var pass = $(".input_pass").val();
 
+        if (txt == "" || pass == "") {
+          $(".modal").modal();
+          $(".modal-body p").text("账号密码不能为空哦!");
+          return;
+        }
+        console.log(txt);
+        console.log(pass);
+        $.ajax({
+          url: "https://autumnfish.cn/big/admin/login",
+          type: "post",
+          data: {
+            user_name: txt,
+            password: pass
+          },
+          success: function(backData) {
+            console.log(backData);
+            if (backData.code == 200) {
+              $(".modal").modal();
+              $(".modal-body p").text("登录成功!欢迎使用(#^.^#)");
+              setTimeout(function() {
+                window.location.href = "./index.html";
+              }, 1000);
+            } else if (backData.code == 400) {
+              $(".modal").modal();
+              $(".modal-body p").text("账号密码错误请检查哦┭┮﹏┭┮");
+            }
+          }
+        });
+      });
+      $(".input_sub").click(function(e) {
+        e.preventDefault();
+      });
+    });
+  </script>
 </html>
