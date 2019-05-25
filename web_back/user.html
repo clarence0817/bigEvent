@@ -1,70 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>文章列表</title>
-    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/main.css" />
     <script src="js/jquery-1.12.4.min.js"></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="container-fluid">
-        <div class="common_title">
-            用户信息修改
-        </div>
-        <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">用户名称：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="李思思">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">昵称：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="思思">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="lisisi@126.com">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
-                    <div class="col-sm-10">
-                        <img src="images/2.jpg" alt="" class="user_pic">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </div>
+      <div class="common_title">
+        用户信息修改
+      </div>
+      <div class="container-fluid common_con">
+        <form class="form-horizontal article_form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >用户名称：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control username"
+                id="inputEmail3"
+                value="李思思"
+                name="username"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >昵称：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control nickname"
+                id="inputEmail3"
+                value="思思"
+                name="nickname"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >邮箱：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control email"
+                id="inputEmail3"
+                value="lisisi@126.com"
+                name="email"
+              />
+            </div>
+          </div>
 
-                <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
-                        <div class="col-sm-4">
-                            <input type="password" class="form-control" id="inputEmail3" value="12345678">
-                        </div>
-                    </div>
-               
-    
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">修改</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label"
+              >用户图标：</label
+            >
+            <div class="col-sm-10">
+              <img src="images/2.jpg" alt="" class="user_pic user_pic" />
+              <input type="file" id="exampleInputFile" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >密码：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="password"
+                class="form-control password"
+                id="inputEmail3"
+                value="12345678"
+                name="password"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-
-</body>
-
+  </body>
+  <script>
+    // 个人中心
+    // 1,点击个人中心调用ajax获取数据
+    // 2,设置样式name为返回数据对象名称
+    // 3,遍历返回数据对象
+    // 4,找到相应样式nanm元素统一设置更改,渲染到页面
+    $(function() {
+      $.ajax({
+        url: "https://autumnfish.cn/big/admin/userinfo_get",
+        type: "get",
+        success: function(backData) {
+          // 优秀人遍历渲染
+          for (var key in backData.data) {
+            $("input." + key + "").val(backData.data[key]);
+          }
+          // 老实人逐个渲染
+          // $('.username').val(backData.data.username);
+          // $('.nickname').val(backData.data.nickname);
+          // $('.email').val(backData.data.email);
+          // $('.password').val(backData.data.password);
+          $(".user_pic").attr("src", backData.data.user_pic);
+        }
+      });
+    });
+  </script>
 </html>
