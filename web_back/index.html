@@ -18,7 +18,7 @@
       <a href="#" class="logo"><img src="images/logo02.png" alt="logo"/></a>
       <div class="user_info">
         <img src="images/2.jpg" alt="person" />
-        <span>欢迎&nbsp;&nbsp;李思思</span>
+        <span>欢迎&nbsp;&nbsp;<i>李思思</i></span>
         <b>管理员</b>
       </div>
       <div class="menu">
@@ -199,6 +199,7 @@
 </html>
 
 <script>
+  // 退出登录
   // 1,找到退出元素添加点击事件
   // 2,点击退出弹出窗口确认是否退出
   // 3,窗口确认退出返回登录界面,取消关闭窗口
@@ -214,12 +215,25 @@
         url: "https://autumnfish.cn/big/admin/logout",
         type: "post",
         success: function(backData) {
-          console.log(backData);
+          // console.log(backData);
           if(backData.code==200){
             window.location.href="./login.html"
           }
         }
       });
     });
+    // 页面打卡获取账户头像及姓名数据渲染至页面
+    // 1,页面打开调用ajax
+    // 2,获取账户数据找到目标元素更改渲染
+    $.ajax({
+      url:'https://autumnfish.cn/big/admin/getuser',
+      type:'get',
+      success:function(backData){
+        console.log(backData);
+        $('.user_info img').attr('src',backData.data.user_pic);
+        $('.user_center_link img').attr('src',backData.data.user_pic);
+        $('.user_info span i').text(backData.data.nickname);
+      }
+    })
   });
 </script>
