@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/iconfont.css" />
     <link rel="stylesheet" href="css/main.css" />
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/jquery.twbsPagination.min.js"></script>
   </head>
 
   <body>
@@ -315,7 +316,7 @@
 
     <!-- 自己的js -->
     <script>
-        var mypage =1;
+      var mypage = 1;
       $(function() {
         //   请求获取数据逻辑
         function getconten() {
@@ -328,7 +329,7 @@
               state: $("#selStatus").val()
             },
             success: function(backData) {
-            //   console.log(backData);
+                console.log(backData);
             //   $("tbody").html(template("cate", backData));
             }
           });
@@ -336,6 +337,28 @@
 
         // 默认调用一次
         getconten();
+
+        var $pagination = $(".pagination");
+
+        var defaultOpts = {
+          totaPages: 20,
+          first: "第一页",
+          prev: "上一页",
+          next: "下一页",
+          last: "尾页",
+          onPageClick: function(event, page) {
+            mypage = page;
+            getconten();
+          }
+        };
+        $pagination.twbsPagination(defaultOpts);
+
+        // 点击筛选 获取数据
+        $("#btnSearch").click(function(e) {
+          e.preventDefault();
+          // 调用方法即可
+          getconten();
+        });
       });
     </script>
   </body>
