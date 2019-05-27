@@ -128,7 +128,7 @@
     // 4,找到相应样式nanm元素统一设置更改,渲染到页面
     $(function() {
       $.ajax({
-        url: "https://autumnfish.cn/big/admin/userinfo_get",
+        url: "http://localhost:8000/admin/userinfo_get",
         type: "get",
         success: function(backData) {
           // 优秀人遍历渲染
@@ -166,7 +166,7 @@
         
         // ajax
         $.ajax({
-            url:'https://autumnfish.cn/big/admin/userinfo_edit',
+            url:'http://localhost:8000/admin/userinfo_edit',
             type:'post',
             data:formData,
             contentType:false,
