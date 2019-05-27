@@ -30,9 +30,9 @@
                 <option>爱旅行</option>
               </select>
               <select id="selStatus" name="" class="form-control input-sm">
-                <option>所有状态</option>
-                <option value="drafted">草稿</option>
-                <option value="published">已发布</option>
+                <option value="">所有状态</option>
+                <option value="草稿">草稿</option>
+                <option value="已发布">已发布</option>
               </select>
               <button id="btnSearch" class="btn btn-default btn-sm">
                 筛选
@@ -316,8 +316,9 @@
 
     <!-- 自己的js -->
     <script>
-      var mypage = 1;
+     
       $(function() {
+        var mypage = 1;
         //   请求获取数据逻辑
         function getconten() {
           $.ajax({
@@ -330,7 +331,7 @@
             },
             success: function(backData) {
                 console.log(backData);
-            //   $("tbody").html(template("cate", backData));
+              $("tbody").html(template("cata", backData));
             }
           });
         }
@@ -341,7 +342,7 @@
         var $pagination = $(".pagination");
 
         var defaultOpts = {
-          totaPages: 20,
+          totalPages: 20,
           first: "第一页",
           prev: "上一页",
           next: "下一页",
