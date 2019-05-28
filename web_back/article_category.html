@@ -278,6 +278,8 @@
 
         // 修改新增框和编辑框样式
         $(".btn-add").click(function() {
+          // 点击清空上次内容
+          $(' form input').val('');
           $(".modal-title").text("新增分类名称");
           $("#model_add")
             .text("新增")
