@@ -312,7 +312,7 @@
 
                   <td class="text-center">
                       <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                      <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                      <a href="javascript:deleteTr( {{$value.id}});" class="btn btn-danger btn-xs">删除</a>
                   </td>
               </tr>
       {{/each}}
@@ -382,7 +382,7 @@
         // 设置分页效果
         // 找到分页标签
         var $pagination = $(".pagination");
-        var myTotalPage=20;
+        var myTotalPage = 20;
         // 默认设置
         var defaultOpts = {
           totalPages: myTotalPage,
@@ -419,6 +419,24 @@
             $("#selCategory").append(html);
           }
         });
+
+        // 删除文章
+        window.deleteTr = function(id) {
+          console.log(id);
+          $.ajax({
+            url: "http://localhost:8000/admin/article_delete",
+            type: "get",
+            data: {
+              id: id
+            },
+            success: function(backData) {
+              if (backData.code == 200) {
+                // alert("删除成功");
+                getData();
+              }
+            }
+          });
+        };
       });
     </script>
   </body>
