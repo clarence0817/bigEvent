@@ -268,6 +268,31 @@
             $(".article_con").html(backData.data.content);
           }
         });
+
+        // 发表评论
+        // 1,找到评论按键添加点击事件
+        // 2,获取评论用户及评论内容
+        // 3,调用ajax上传评论
+        // 4,局部刷新页面
+        $('.comment_sub').click(function(e){
+          e.preventDefault();
+          var user=$('.comment_name').val();
+          console.log(user);
+          var content=$('.comment_input').val();
+          console.log(content);
+
+          $.ajax({
+            url:'http://localhost:8000/admin/post_comment',
+            type:"post",
+            data:{
+              user_name:user,
+              content:content
+            },
+            success:function(backData){
+              console.log(backData);
+            }
+          })
+        })
       });
     </script>
   </body>

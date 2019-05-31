@@ -159,6 +159,8 @@
           formData.append("state", "已发布");
         //  添加文章内容
           formData.append("content", tinyMCE.activeEditor.getContent());
+          console.log(tinyMCE.activeEditor.getContent());
+          
         // 调用ajax发送文章
           $.ajax({
             url: "http://localhost:8000/admin/article_publish",
