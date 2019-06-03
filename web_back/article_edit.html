@@ -118,59 +118,88 @@
       // 2,切割地址获取id号码
       // 3,调用ajax搜索文章
       // 4,赋值各项数据给value
-      window.onload=function(){
-      $(function() {
-        // 单独获取类型数据
-        $.ajax({
-          url: "http://localhost:8000/admin/category_search",
-          type: "get",
-          success: function(backData) {
-            console.log(backData);
-            $(".form-control").html(template("cate", backData));
-          }
-        });
-        //  选择图片后渲染
-        $("#exampleInputFile").change(function(e) {
-          var url = URL.createObjectURL(this.files[0]);
-          console.log(url);
-          $(this)
-            .prev("img")
-            .attr("src", url);
-          console.log(this);
+      window.onload = function() {
+        $(function() {
+          // 单独获取类型数据
+          $.ajax({
+            url: "http://localhost:8000/admin/category_search",
+            type: "get",
+            success: function(backData) {
+              console.log(backData);
+              $(".form-control").html(template("cate", backData));
+            }
+          });
+          //  选择图片后渲染
+          $("#exampleInputFile").change(function(e) {
+            var url = URL.createObjectURL(this.files[0]);
+            console.log(url);
+            $(this)
+              .prev("img")
+              .attr("src", url);
+            console.log(this);
+          });
+
+          // 声明id切割地址获取id
+          var id = window.location.href.split("=")[1];
+          console.log(id);
+          // 调用ajax搜索文章添加表单内容
+          $.ajax({
+            url: "http://localhost:8000/admin/search",
+            type: "get",
+            data: {
+              id: id
+            },
+            success: function(backData) {
+              console.log(backData);
+              // 文章标题
+              $("#inputEmail3").val(backData.data.title);
+              // 图片
+              $(".article_cover").attr("src", backData.data.cover);
+              // 类别
+              console.log(backData.data.type);
+              $(".form-control>option[value=" + backData.data.type + "]").prop(
+                "selected",
+                true
+              );
+              // 日期
+              $("#dateinput").val(backData.data.date);
+              // 内容获取
+              tinyMCE.activeEditor.setContent(backData.data.content);
+              console.log(backData.data.content);
+            }
+          });
         });
 
-        // 声明id切割地址获取id
-        var id = window.location.href.split("=")[1];
-        console.log(id);
-        // 调用ajax搜索文章添加表单内容
-        $.ajax({
-          url: "http://localhost:8000/admin/search",
-          type: "get",
-          data: {
-            id: id
-          },
-          success: function(backData) {
-            console.log(backData);
-            // 文章标题
-            $("#inputEmail3").val(backData.data.title);
-            // 图片
-            $(".article_cover").attr("src", backData.data.cover);
-            // 类别
-            console.log(backData.data.type);
-            $(".form-control>option[value=" + backData.data.type + "]").prop(
-              "selected",
-              true
-            );
-            // 日期
-            $("#dateinput").val(backData.data.date);
-            // 内容获取
-            tinyMCE.activeEditor.setContent(backData.data.content)
-            console.log(backData.data.content);
-            
-          }
+        $(".btn-push").click(function(e) {
+          // 阻止默认跳转
+          e.preventDefault();
+
+          var formData = new FormData($("form")[0]);
+          //  在后面添加文章状态
+          formData.append("state", "已发布");
+          //  添加文章内容
+          formData.append("content", tinyMCE.activeEditor.getContent());
+          console.log(tinyMCE.activeEditor.getContent());
+
+          // 调用ajax发送文章
+          $.ajax({
+            url: "http://localhost:8000/admin/article_publish",
+            type: "post",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(backData) {
+              console.log(backData);
+              if (backData.code == 201) {
+                alert("发表成功");
+                setTimeout(function() {
+                  window.location.href = "./index.html";
+                });
+              }
+            }
+          });
         });
-      });
-    }
+      };
     </script>
   </body>
 </html>
